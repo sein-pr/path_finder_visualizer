@@ -1,3 +1,45 @@
 .grid {
   margin: 100px 0 0;
 }
+
+/* Button Style */
+.button {
+  display: block;
+  width: 300px;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  background-color: #3498db; /* Blue background */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+.button:active {
+  transform: scale(0.95); /* Slight shrink effect when button is clicked */
+}
+
+.button:focus {
+  outline: none; /* Remove default outline on focus */
+}
+
+/* Header and Button Container Style */
+.button-container {
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  margin: 20px 0;
+}
+
+.button-container .button {
+  margin: 0 10px; /* Space between buttons */
+  width: auto; /* Auto width for better alignment */
+}

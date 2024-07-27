@@ -1,8 +1,9 @@
+// PathfindingVisualizer.jsx
 import React, {Component} from 'react';
 import Node from './Node/Node';
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
-
 import './PathfindingVisualizer.css';
+
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -60,7 +61,7 @@ export default class PathfindingVisualizer extends Component {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           'node node-shortest-path';
-      }, 50 * i);
+      }, 40 * i);
     }
   }
 
@@ -73,14 +74,25 @@ export default class PathfindingVisualizer extends Component {
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
+  clearPath() {
+    console.log('Clearing Path'); // Debugging statement
+    const grid = getInitialGrid();
+    this.setState({grid});
+  }
+
   render() {
     const {grid, mouseIsPressed} = this.state;
 
     return (
       <>
-        <button onClick={() => this.visualizeDijkstra()}>
-          Visualize Dijkstra's Algorithm
-        </button>
+        <div className="button-container">
+          <button className="button" onClick={() => this.visualizeDijkstra()}>
+            Visualize Dijkstra's Algorithm
+          </button>
+          <button className="button" onClick={() => this.clearPath()}>
+            Clear Path
+          </button>
+        </div>
         <div className="grid">
           {grid.map((row, rowIdx) => {
             return (
