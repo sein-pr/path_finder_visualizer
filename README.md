@@ -53,7 +53,7 @@ Ensure you have Node.js and npm (Node Package Manager) installed on your system.
 - **`src/`:** Contains all the source files for the application.
   - **`PathfindingVisualizer.js:`** Main component for handling the grid and algorithm visualization.
   - **`Node/Node.js:`** Component for individual grid nodes.
-  - **`algorithms/`:** Contains all the algorithm implementations.
+  - **`algorithms/`:** Contains all the algorithms implementations.
 
 ## License
 
