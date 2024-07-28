@@ -62,12 +62,11 @@
 
 .node-wall {
   background-color: #1a1a1a; /* Darker wall color */
-  border: 2px solid #333; /* Solid border for walls */
-  background-image: linear-gradient(135deg, #333 25%, transparent 25%),
-    linear-gradient(225deg, #333 25%, transparent 25%),
-    linear-gradient(45deg, #333 25%, transparent 25%),
-    linear-gradient(315deg, #333 25%, transparent 25%);
-  background-position: 10px 0, 10px 0, 0 0, 0 0;
+  background-image: linear-gradient(135deg, #333 20%, transparent 20%),
+    linear-gradient(225deg, #333 20%, transparent 20%),
+    linear-gradient(45deg, #333 20%, transparent 20%),
+    linear-gradient(315deg, #333 20%, transparent 20%);
+  background-position: 8px 0, 8px 0, 0 0, 0 0;
   background-size: 10px 10px;
   background-repeat: repeat;
 }

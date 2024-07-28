@@ -36,10 +36,52 @@
 .button-container {
   display: flex;
   justify-content: center; /* Center buttons horizontally */
+  align-items: center; /* Center items vertically */
   margin: 20px 0;
+  gap: 10px; /* Space between items */
 }
 
 .button-container .button {
-  margin: 0 10px; /* Space between buttons */
   width: auto; /* Auto width for better alignment */
+}
+
+/* Dropdown Container Style */
+.dropdown-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0; /* Add margin to the container */
+  gap: 10px; /* Space between dropdowns */
+}
+
+/* Dropdown Style */
+.algorithm-dropdown {
+  padding: 10px;
+  font-size: 1.2em;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #fff;
+  background-color: #3498db; /* Match button color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.algorithm-dropdown:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+.algorithm-dropdown:focus {
+  outline: none; /* Remove default outline on focus */
+}
+
+/* Selected Algorithm Display */
+.selected-algorithm {
+  text-align: center;
+  font-size: 1.2em;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #2c3e50; /* Dark color for text */
+  margin-top: 20px;
 }

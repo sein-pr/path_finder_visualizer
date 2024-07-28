@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+// Node/Node.js
 
+import React from 'react';
 import './Node.css';
 
-export default class Node extends Component {
+export default class Node extends React.Component {
   render() {
     const {
       col,
@@ -13,7 +14,11 @@ export default class Node extends Component {
       onMouseEnter,
       onMouseUp,
       row,
+      onDragStart,
+      onDragEnter,
+      onDrop,
     } = this.props;
+
     const extraClassName = isFinish
       ? 'node-finish'
       : isStart
@@ -28,7 +33,12 @@ export default class Node extends Component {
         className={`node ${extraClassName}`}
         onMouseDown={() => onMouseDown(row, col)}
         onMouseEnter={() => onMouseEnter(row, col)}
-        onMouseUp={() => onMouseUp()}></div>
+        onMouseUp={() => onMouseUp()}
+        draggable={isStart || isFinish}
+        onDragStart={() => onDragStart(row, col)}
+        onDragEnter={() => onDragEnter(row, col)}
+        onDrop={() => onDrop(row, col)}
+      ></div>
     );
   }
 }
