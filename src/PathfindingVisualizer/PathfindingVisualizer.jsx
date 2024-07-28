@@ -1,13 +1,18 @@
-// PathfindingVisualizer/PathfindingVisualizer.js
-
-import React, { Component } from 'react';
-import Node from './Node/Node';
-import { dijkstra, getNodesInShortestPathOrder } from '../algorithms/dijkstra';
-import { astar, getNodesInAStarPathOrder } from '../algorithms/astar';
-import { bfs, getNodesInBFSPathOrder } from '../algorithms/bfs';
-import { greedyBestFirstSearch, getNodesInGBFSPathOrder } from '../algorithms/gbfs';
-import { dfs } from '../algorithms/dfs';
-import './PathfindingVisualizer.css';
+import React, { Component } from "react";
+import Node from "./Node/Node";
+import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
+import { astar, getNodesInAStarPathOrder } from "../algorithms/astar";
+import { bfs, getNodesInBFSPathOrder } from "../algorithms/bfs";
+import {
+  greedyBestFirstSearch,
+  getNodesInGBFSPathOrder,
+} from "../algorithms/gbfs";
+import { dfs } from "../algorithms/dfs";
+import {
+  bellmanFord,
+  getNodesInBellmanFordPathOrder,
+} from "../algorithms/bellmanFord";
+import "./PathfindingVisualizer.css";
 
 // Define initial positions for the start and finish nodes
 const START_NODE_ROW = 10; // Example starting row
@@ -21,7 +26,7 @@ export default class PathfindingVisualizer extends Component {
     this.state = {
       grid: [],
       mouseIsPressed: false,
-      selectedAlgorithm: '',
+      selectedAlgorithm: "",
       draggingNode: null,
     };
   }
@@ -92,23 +97,26 @@ export default class PathfindingVisualizer extends Component {
   visualizeAlgorithm() {
     const { selectedAlgorithm } = this.state;
     switch (selectedAlgorithm) {
-      case 'dijkstra':
+      case "dijkstra":
         this.visualizeDijkstra();
         break;
-      case 'astar':
+      case "astar":
         this.visualizeAStar();
         break;
-      case 'bfs':
+      case "bfs":
         this.visualizeBFS();
         break;
-      case 'gbfs':
+      case "gbfs":
         this.visualizeGBFS();
         break;
-      case 'dfs':
+      case "dfs":
         this.visualizeDFS();
         break;
+      case "bellman-ford":
+        this.visualizeBellmanFord();
+        break;
       default:
-        alert('Please select an algorithm');
+        alert("Please select an algorithm");
         break;
     }
   }
@@ -124,7 +132,15 @@ export default class PathfindingVisualizer extends Component {
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
-          'node node-visited';
+          "node node-visited";
+
+        // Indicate the current position of the algorithm
+        if (i < visitedNodesInOrder.length - 1) {
+          const nextNode = visitedNodesInOrder[i + 1];
+          document.getElementById(
+            `node-${nextNode.row}-${nextNode.col}`
+          ).className = "node node-current"; // Add a class for the current node
+        }
       }, 10 * i);
     }
   }
@@ -134,7 +150,7 @@ export default class PathfindingVisualizer extends Component {
       setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
-          'node node-shortest-path';
+          "node node-shortest-path";
       }, 40 * i);
     }
   }
@@ -182,7 +198,11 @@ export default class PathfindingVisualizer extends Component {
   visualizeGBFS() {
     const { grid } = this.state;
     const { startNode, finishNode } = this.getStartAndFinishNodes();
-    const visitedNodesInOrder = greedyBestFirstSearch(grid, startNode, finishNode);
+    const visitedNodesInOrder = greedyBestFirstSearch(
+      grid,
+      startNode,
+      finishNode
+    );
     const nodesInGBFSPathOrder = getNodesInGBFSPathOrder(finishNode);
     this.animateAlgorithm(visitedNodesInOrder, nodesInGBFSPathOrder);
   }
@@ -194,9 +214,17 @@ export default class PathfindingVisualizer extends Component {
     this.animateAlgorithm(visitedNodesInOrder, visitedNodesInOrder);
   }
 
+  visualizeBellmanFord() {
+    const { grid } = this.state;
+    const { startNode, finishNode } = this.getStartAndFinishNodes();
+    const visitedNodesInOrder = bellmanFord(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = getNodesInBellmanFordPathOrder(finishNode);
+    this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
   clearPath() {
     const grid = getInitialGrid(); // Reset the grid
-    this.setState({ grid, mouseIsPressed: false, selectedAlgorithm: '' }); // Reset state
+    this.setState({ grid, mouseIsPressed: false, selectedAlgorithm: "" }); // Reset state
 
     // Retain the start and finish nodes in their initial state
     grid[START_NODE_ROW][START_NODE_COL].isStart = true;
@@ -211,12 +239,12 @@ export default class PathfindingVisualizer extends Component {
             !(row === START_NODE_ROW && col === START_NODE_COL) &&
             !(row === FINISH_NODE_ROW && col === FINISH_NODE_COL)
           ) {
-            nodeElement.className = 'node'; // Reset to default class
+            nodeElement.className = "node"; // Reset to default class
           } else {
             nodeElement.className = `node ${
               row === START_NODE_ROW && col === START_NODE_COL
-                ? 'node-start'
-                : 'node-finish'
+                ? "node-start"
+                : "node-finish"
             }`; // Maintain start and finish classes
           }
         }
@@ -233,17 +261,21 @@ export default class PathfindingVisualizer extends Component {
           <select
             className="algorithm-dropdown"
             onChange={(e) =>
-              this.handleAlgorithmChange(e.target.value, 'Weighted Algorithms')
+              this.handleAlgorithmChange(e.target.value, "Weighted Algorithms")
             }
           >
             <option value="Weighted Algorithms">Weighted Algorithms</option>
             <option value="dijkstra">Dijkstra's Algorithm</option>
             <option value="astar">A* Algorithm</option>
+            <option value="bellman-ford">Bellman-Ford Algorithm</option>
           </select>
           <select
             className="algorithm-dropdown"
             onChange={(e) =>
-              this.handleAlgorithmChange(e.target.value, 'Unweighted Algorithms')
+              this.handleAlgorithmChange(
+                e.target.value,
+                "Unweighted Algorithms"
+              )
             }
           >
             <option value="Unweighted Algorithms">Unweighted Algorithms</option>
@@ -253,7 +285,7 @@ export default class PathfindingVisualizer extends Component {
           <select
             className="algorithm-dropdown"
             onChange={(e) =>
-              this.handleAlgorithmChange(e.target.value, 'Heuristic Algorithms')
+              this.handleAlgorithmChange(e.target.value, "Heuristic Algorithms")
             }
           >
             <option value="Heuristic Algorithms">Heuristic Algorithms</option>
@@ -274,33 +306,33 @@ export default class PathfindingVisualizer extends Component {
           </button>
         </div>
         <div className="grid">
-          {grid.map((row, rowIdx) => {
-            return (
-              <div key={rowIdx}>
-                {row.map((node, nodeIdx) => {
-                  const { row, col, isFinish, isStart, isWall } = node;
-                  return (
-                    <Node
-                      key={nodeIdx}
-                      col={col}
-                      isFinish={isFinish}
-                      isStart={isStart}
-                      isWall={isWall}
-                      mouseIsPressed={mouseIsPressed}
-                      onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-                      onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
-                      onMouseUp={() => this.handleMouseUp()}
-                      onDragStart={(row, col) => this.handleDragStart(row, col)}
-                      onDragEnter={(row, col) => this.handleDragEnter(row, col)}
-                      onDrop={(row, col) => this.handleDrop(row, col)}
-                      row={row}
-                    ></Node>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+  {grid.map((row, rowIdx) => {
+    return (
+      <div key={rowIdx}>
+        {row.map((node, nodeIdx) => {
+          const { row, col, isFinish, isStart, isWall } = node;
+          return (
+            <Node
+              key={nodeIdx}
+              col={col}
+              isFinish={isFinish}
+              isStart={isStart}
+              isWall={isWall}
+              mouseIsPressed={mouseIsPressed}
+              onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+              onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
+              onMouseUp={() => this.handleMouseUp()}
+              onDragStart={(row, col) => this.handleDragStart(row, col)}
+              onDragEnter={(row, col) => this.handleDragEnter(row, col)}
+              onDrop={(row, col) => this.handleDrop(row, col)}
+              row={row}
+            ></Node>
+          );
+        })}
+      </div>
+    );
+  })}
+</div>
       </>
     );
   }

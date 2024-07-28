@@ -1,5 +1,9 @@
 .grid {
   margin: 100px 0 0;
+  display: flex;
+  flex-direction: column; /* Stack rows vertically */
+  align-items: center; /* Center the grid horizontally */
+  justify-content: center; /* Center the grid vertically */
 }
 
 /* Button Style */
@@ -84,4 +88,41 @@
   font-weight: bold;
   color: #2c3e50; /* Dark color for text */
   margin-top: 20px;
+}
+
+.node-current {
+  background-color: rgb(255, 0, 0); /* Color for the currently active node */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .grid {
+    margin: 50px 0; /* Reduce margin on small screens */
+  }
+
+  .button {
+    width: 80%; /* Make buttons full width on small screens */
+    font-size: 1em; /* Adjust font size */
+  }
+
+  .algorithm-dropdown {
+    width: 80%; /* Make dropdowns full width on small screens */
+    font-size: 1em; /* Adjust font size */
+  }
+
+  .selected-algorithm {
+    font-size: 1em; /* Adjust font size */
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1200px) {
+  .button {
+    width: 60%; /* Adjust button width for medium screens */
+    font-size: 1.1em; /* Slightly larger font size */
+  }
+
+  .algorithm-dropdown {
+    width: 60%; /* Adjust dropdown width for medium screens */
+    font-size: 1.1em; /* Slightly larger font size */
+  }
 }

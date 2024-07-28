@@ -7,6 +7,26 @@
   transition: background-color 0.3s ease; /* Smooth color transitions */
 }
 
+/* Responsive adjustments */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25px, 1fr)); /* Responsive grid */
+  gap: 5px; /* Space between nodes */
+}
+
+@media (max-width: 600px) {
+  .node {
+    width: 15px; /* Smaller size for mobile devices */
+    height: 15px; /* Smaller size for mobile devices */
+  }
+
+  .node-finish::after,
+  .node-start::after,
+  .node-shortest-path::after {
+    font-size: 12px; /* Smaller icons for mobile */
+  }
+}
+
 .node-finish::after {
   content: '📍'; /* Unicode for location pin */
   position: absolute;
