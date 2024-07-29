@@ -91,7 +91,7 @@
 }
 
 .node-current {
-  background-color: rgb(255, 0, 0); /* Color for the currently active node */
+  background-color: rgb(255, 0, 0); /* Color for the currently active node (wprks */
 }
 
 /* Responsive Styles */
